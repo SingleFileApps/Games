@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Tic-Tac-Toe</title>
+    <style>
+        #gameArea {
+            width: 100%;
+            text-align: center;
+        }
+
+        #turnIndicator {
+            float: left;
+        }
+
+        .empty:hover {
+            cursor: pointer;
+        }
+
+        body {
+            text-align: center;
+        }
+
+        td {
+            border: 1px solid black;
+            width: 25px;
+            height: 25px;
+        }
+
+        button {
+            float: left;
+            border: 2px solid transparent;
+            outline: none;
+            transition: linear 200ms;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            border: 2px solid darkgray;
+        }
+
+        button:active {
+            border-radius: 14px;
+        }
+    </style>
+    <script type="text/javascript">
+        var width = 3;
+        var height = 3;
+        var board = [[]];
+        var whoseTurn = "O";
+
+        function init() {
+
+
+            var cells = document.getElementsByTagName("td");
+            console.log(document.querySelector("#turnIndicator").innerHTML);
+            for (var i = 0; i < cells.length; i++) {
+                cells[i].addEventListener(
+                    "click",
+                    function (e) {
+                        if (e.srcElement.innerHTML != "X" && e.srcElement.innerHTML != "O") {
+                            let element = e.srcElement;
+                            element.classList.remove("empty")
+                            if (whoseTurn == "X") {
+                                element.innerHTML = "X";
+                                whoseTurn = "O";
+                            } else {
+                                element.innerHTML = "O";
+                                whoseTurn = "X";
+                            }
+                        }
+                        document.querySelector("#whoseTurn").innerHTML = whoseTurn;
+                    },
+                    false
+                );
+            }
+        }
+
+        function newGame() {
+            var cells = document.getElementsByTagName("td");
+            for (var i = 0; i < cells.length; i++) {
+                let element = cells[i];
+                element.classList.add("empty");
+                element.innerHTML = "";
+            }
+            whoseTurn = "O"
+            document.querySelector("#whoseTurn").innerHTML = whoseTurn;
+        }
+
+        function checkWin() {
+            checkRowWins();
+            checkColumnWins();
+            checkDiagonalWins();
+        }
+
+        function checkRowWins() {
+            for (var i = 0; i < height; i++) {
+                var rowSet = [];
+                for (var j = 0; j < width; j++) {
+                    rowSet.push(board[i][j]);
+                }
+                if (checkMatches(rowSet)) {
+                    win(rowSet[0]);
+                } else {
+                    continue;
+                }
+            }
+        }
+
+        function checkColumnWins() {
+            for (var i = 0; i < width; i++) {
+                var rowSet = [];
+                for (var j = 0; j < height; j++) {
+                    rowSet.push(board[j][i]);
+                }
+                if (checkMatches(rowSet)) {
+                    win(rowSet[0]);
+                } else {
+                    continue;
+                }
+            }
+        }
+
+        function checkDiagonalWins() {
+            for (var i = 0, j = 0; i < width || j < height; i++, j++) {
+
+            }
+        }
+
+        function checkMatches(cellArray) {
+            for (var i = 1; i < cellArray.length; i++) {
+                if (cellArray[i - 1] !== cellArray[i]) {
+                    return false;
+                }
+            }
+            return cellArray[0];
+        }
+
+        function win(winner) {
+            document.querySelector("#turnIndicator").innerHTML = winner + " wins!";
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <div id="gameArea">
+        <table id="board">
+            <tr id="row1">
+                <td id="c0r0" class="empty"></td>
+                <td id="c1r0" class="empty"></td>
+                <td id="c2r0" class="empty"></td>
+            </tr>
+            <tr id="row2">
+                <td id="c0r1" class="empty"></td>
+                <td id="c1r1" class="empty"></td>
+                <td id="c2r1" class="empty"></td>
+            </tr>
+            <tr id="row3">
+                <td id="c0r2" class="empty"></td>
+                <td id="c1r2" class="empty"></td>
+                <td id="c2r2" class="empty"></td>
+            </tr>
+        </table>
+    </div>
+    <div id="turnIndicator">
+        It's
+        <span id="whoseTurn">
+            O
+        </span>
+        's turn
+    </div>
+    <br>
+    <button id="newGame" onclick="newGame()">New Game</button>
+</body>
+
+</html>
